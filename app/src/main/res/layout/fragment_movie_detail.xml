@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.CardContent"
+    android:layout_width="367dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/movie_detail_poster"
+        android:layout_width="136dp"
+        android:layout_height="204dp"
+        android:src="@drawable/poster_default" />
+
+    <TextView
+        android:id="@+id/movie_detail_year"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_toEndOf="@+id/movie_detail_poster"
+        android:layout_toRightOf="@+id/movie_detail_poster"
+        android:text="2015"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <TextView
+        android:id="@+id/movie_detail_vote_average"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/movie_detail_year"
+        android:layout_alignStart="@+id/movie_detail_year"
+        android:layout_below="@+id/movie_detail_year"
+        android:text="8.5 / 10"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/movie_detail_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/movie_detail_vote_average"
+        android:layout_alignStart="@+id/movie_detail_vote_average"
+        android:layout_below="@+id/movie_detail_vote_average"
+        android:paddingTop="10dp"
+        android:text="Twenty-two years after the events of Jurassic Park, Isla Nublar now features a fully functioning dinosaur theme park, Jurassic World, as originally envisioned by John Hammond." />
+
+
+</RelativeLayout>
