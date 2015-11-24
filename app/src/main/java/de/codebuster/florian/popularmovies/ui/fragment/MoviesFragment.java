@@ -81,7 +81,10 @@ public class MoviesFragment extends Fragment implements WantsMovies {
                 Movie movie = (Movie) movieAdapter.getItem(position);
 
                 Intent detailIntent = new Intent(getActivity(), MovieDetailActivity.class);
-                detailIntent.putExtra(Intent.EXTRA_TEXT, movie);
+                Bundle mBundle = new Bundle();
+                mBundle.putParcelable(Movie.class.toString(), movie);
+                detailIntent.putExtras(mBundle);
+
                 startActivity(detailIntent);
             }
         });

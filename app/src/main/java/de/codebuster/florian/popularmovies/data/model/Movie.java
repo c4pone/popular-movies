@@ -1,5 +1,8 @@
 package de.codebuster.florian.popularmovies.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Movie implements Serializable {
+public class Movie implements Parcelable {
 
     @SerializedName("adult")
     @Expose
@@ -263,5 +266,57 @@ public class Movie implements Serializable {
         format = new SimpleDateFormat("yyyy");
         return format.format(newDate);
     }
+
+    public Movie() {}
+
+    // Parcelling part
+    public Movie(Parcel in){
+        this.adult = in.readByte() != 0;
+        this.id = in.readInt();
+        this.backdropPath = in.readString();
+        in.readList(this.genreIds, null);
+        this.originalLanguage = in.readString();
+        this.originalTitle = in.readString();
+        this.overview = in.readString();
+        this.releaseDate = in.readString();
+        this.posterPath = in.readString();
+        this.popularity = in.readDouble();
+        this.title = in.readString();
+        this.video = in.readByte() != 0;
+        this.voteAverage = in.readDouble();
+        this.voteCount = in.readInt();
+    }
+
+    @Override
+    public int describeContents(){
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte((byte) (this.adult ? 1 : 0));
+        dest.writeInt(this.id);
+        dest.writeString(this.backdropPath);
+        dest.writeList(this.genreIds);
+        dest.writeString(this.originalLanguage);
+        dest.writeString(this.originalTitle);
+        dest.writeString(this.overview);
+        dest.writeString(this.releaseDate);
+        dest.writeString(this.posterPath);
+        dest.writeDouble(this.popularity);
+        dest.writeString(this.title);
+        dest.writeByte((byte) (this.video ? 1 : 0));
+        dest.writeDouble(this.voteAverage);
+        dest.writeInt(this.voteCount);
+    }
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 
 }

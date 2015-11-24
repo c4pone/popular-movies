@@ -38,8 +38,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-            movie = (Movie) intent.getSerializableExtra(Intent.EXTRA_TEXT);
+        if (intent != null) {
+            movie = (Movie)getIntent().getParcelableExtra(Movie.class.toString());
 
             setSupportActionBar(toolbar);
             if (getSupportActionBar() != null)
