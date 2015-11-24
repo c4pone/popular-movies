@@ -15,7 +15,7 @@ import de.codebuster.florian.popularmovies.ui.WantsMovies;
 import retrofit.Call;
 
 
-public class GetPopularMoviesTask extends AsyncTask<String, Void, List<Movie>> {
+public class GetPopularMoviesTask extends AsyncTask<String, Void, ArrayList<Movie>> {
     private final String LOG_TAG = GetPopularMoviesTask.class.getSimpleName();
 
     private WantsMovies wantsMovies;
@@ -25,7 +25,7 @@ public class GetPopularMoviesTask extends AsyncTask<String, Void, List<Movie>> {
     }
 
     @Override
-    protected List<Movie> doInBackground(String... params) {
+    protected ArrayList<Movie> doInBackground(String... params) {
         if (params.length == 0) {
             return new ArrayList<Movie>();
         }
@@ -41,11 +41,11 @@ public class GetPopularMoviesTask extends AsyncTask<String, Void, List<Movie>> {
             Log.e(LOG_TAG, "Background task failed", e);
         }
 
-        return movieDiscoveryResponse.getResults();
+        return (ArrayList<Movie>) movieDiscoveryResponse.getResults();
     }
 
     @Override
-    protected void onPostExecute(List<Movie> movies) {
+    protected void onPostExecute(ArrayList<Movie> movies) {
         super.onPostExecute(movies);
 
         this.wantsMovies.setMovies(movies);
