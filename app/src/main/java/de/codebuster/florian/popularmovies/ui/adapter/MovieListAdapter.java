@@ -46,6 +46,7 @@ public class MovieListAdapter extends ArrayAdapter {
                     .with(context)
                     .load(ImageHelper.getUrl(185) + movie.getPosterPath())
                     .placeholder(R.drawable.poster_placeholder)
+                    .error(R.drawable.poster_placeholder)
                     .fit()
                     .into(poster);
         }
