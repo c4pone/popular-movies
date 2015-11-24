@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.codebuster.florian.popularmovies.R;
 import de.codebuster.florian.popularmovies.data.model.Movie;
 import de.codebuster.florian.popularmovies.helper.ImageHelper;
@@ -18,6 +20,10 @@ public class MovieDetailFragment extends Fragment {
 
     private static final String ARG_PARAM = "MOVIE";
     private Movie movie;
+    @Bind(R.id.movie_detail_poster) ImageView poster;
+    @Bind(R.id.movie_detail_vote_average) TextView voteAverage;
+    @Bind(R.id.movie_detail_description) TextView description;
+    @Bind(R.id.movie_detail_year) TextView releaseYear;
 
     public MovieDetailFragment() {
         movie = new Movie();
@@ -44,7 +50,7 @@ public class MovieDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
 
-        ImageView poster = (ImageView) view.findViewById(R.id.movie_detail_poster);
+        ButterKnife.bind(this, view);
 
         Picasso
                 .with(getContext())
@@ -52,13 +58,8 @@ public class MovieDetailFragment extends Fragment {
                 .fit()
                 .into(poster);
 
-        TextView year = (TextView) view.findViewById(R.id.movie_detail_year);
-        year.setText(movie.getReleaseYear());
-
-        TextView vote_average = (TextView) view.findViewById(R.id.movie_detail_vote_average);
-        vote_average.setText(movie.getVoteAverage() + " / " + "10");
-
-        TextView description = (TextView) view.findViewById(R.id.movie_detail_description);
+        releaseYear.setText(movie.getReleaseYear());
+        voteAverage.setText(movie.getVoteAverage() + " / " + "10");
         description.setText(movie.getOverview());
 
         return view;

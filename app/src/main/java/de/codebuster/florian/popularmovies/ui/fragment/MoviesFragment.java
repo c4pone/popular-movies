@@ -5,16 +5,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.CallSuper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.BindString;
+import butterknife.ButterKnife;
 import de.codebuster.florian.popularmovies.R;
 import de.codebuster.florian.popularmovies.data.model.Movie;
 import de.codebuster.florian.popularmovies.ui.WantsMovies;
@@ -25,8 +30,10 @@ import de.codebuster.florian.popularmovies.ui.task.GetPopularMoviesTask;
 
 public class MoviesFragment extends Fragment implements WantsMovies {
 
-    private final String LOG_TAG = MoviesFragment.class.getSimpleName();
     private ArrayAdapter movieAdapter;
+    @BindString(R.string.pref_sort_key) String prefSortKey;
+    @BindString(R.string.pref_sort_default) String prefSortDefault;
+    @Bind(R.id.popular_movies_grid) GridView moviesGrid;
 
     @Override
     public void setMovies(List<Movie> movies) {
@@ -52,8 +59,7 @@ public class MoviesFragment extends Fragment implements WantsMovies {
      */
     public void refresh() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String sortOrder = prefs.getString(getString(R.string.pref_sort_key),
-                getString(R.string.pref_sort_default));
+        String sortOrder = prefs.getString(prefSortKey, prefSortDefault);
 
         GetPopularMoviesTask getPopularMoviesTask = new GetPopularMoviesTask(this);
         getPopularMoviesTask.execute(sortOrder);
@@ -63,13 +69,13 @@ public class MoviesFragment extends Fragment implements WantsMovies {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_movies, container, false);
+        View view = inflater.inflate(R.layout.fragment_movies, container, false);
+        ButterKnife.bind(this, view);
 
         movieAdapter = new MovieListAdapter(getActivity(), new ArrayList<Movie>());
 
-        GridView gridView = (GridView) v.findViewById(R.id.popular_movies_grid);
-        gridView.setAdapter(movieAdapter);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        moviesGrid.setAdapter(movieAdapter);
+        moviesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Movie movie = (Movie) movieAdapter.getItem(position);
@@ -80,6 +86,6 @@ public class MoviesFragment extends Fragment implements WantsMovies {
             }
         });
 
-        return v;
+        return view;
     }
 }

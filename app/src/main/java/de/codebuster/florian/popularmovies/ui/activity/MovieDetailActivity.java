@@ -16,12 +16,18 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.codebuster.florian.popularmovies.R;
 import de.codebuster.florian.popularmovies.data.model.Movie;
 import de.codebuster.florian.popularmovies.helper.ImageHelper;
 import de.codebuster.florian.popularmovies.ui.fragment.MovieDetailFragment;
 
 public class MovieDetailActivity extends AppCompatActivity {
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbar;
+    @Bind(R.id.backdrop) ImageView backdrop;
+
     ShareActionProvider shareActionProvider;
     Movie movie;
 
@@ -29,22 +35,18 @@ public class MovieDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        ButterKnife.bind(this);
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
             movie = (Movie) intent.getSerializableExtra(Intent.EXTRA_TEXT);
 
-            final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             if (getSupportActionBar() != null)
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-            CollapsingToolbarLayout collapsingToolbar =
-                    (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
             collapsingToolbar.setTitle(movie.getTitle());
 
-            ImageView backdrop = (ImageView) findViewById(R.id.backdrop);
             Picasso
                     .with(this)
                     .load(ImageHelper.getUrl(500) + movie.getBackdropPath())
