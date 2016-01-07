@@ -1,4 +1,4 @@
-package de.codebuster.florian.popularmovies.data.model;
+package de.codebuster.florian.popularmovies.data.domain.movie;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,6 +14,15 @@ import java.util.List;
 
 public class Movie implements Parcelable {
 
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
     @SerializedName("adult")
     @Expose
     private Boolean adult;
@@ -57,6 +65,27 @@ public class Movie implements Parcelable {
     @SerializedName("vote_count")
     @Expose
     private Integer voteCount;
+
+    public Movie() {
+    }
+
+    // Parcelling part
+    public Movie(Parcel in) {
+        this.adult = in.readByte() != 0;
+        this.id = in.readInt();
+        this.backdropPath = in.readString();
+        in.readList(this.genreIds, null);
+        this.originalLanguage = in.readString();
+        this.originalTitle = in.readString();
+        this.overview = in.readString();
+        this.releaseDate = in.readString();
+        this.posterPath = in.readString();
+        this.popularity = in.readDouble();
+        this.title = in.readString();
+        this.video = in.readByte() != 0;
+        this.voteAverage = in.readDouble();
+        this.voteCount = in.readInt();
+    }
 
     /**
      * @return The adult
@@ -267,28 +296,8 @@ public class Movie implements Parcelable {
         return format.format(newDate);
     }
 
-    public Movie() {}
-
-    // Parcelling part
-    public Movie(Parcel in){
-        this.adult = in.readByte() != 0;
-        this.id = in.readInt();
-        this.backdropPath = in.readString();
-        in.readList(this.genreIds, null);
-        this.originalLanguage = in.readString();
-        this.originalTitle = in.readString();
-        this.overview = in.readString();
-        this.releaseDate = in.readString();
-        this.posterPath = in.readString();
-        this.popularity = in.readDouble();
-        this.title = in.readString();
-        this.video = in.readByte() != 0;
-        this.voteAverage = in.readDouble();
-        this.voteCount = in.readInt();
-    }
-
     @Override
-    public int describeContents(){
+    public int describeContents() {
         return 0;
     }
 
@@ -309,14 +318,5 @@ public class Movie implements Parcelable {
         dest.writeDouble(this.voteAverage);
         dest.writeInt(this.voteCount);
     }
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
-        }
-
-        public Movie[] newArray(int size) {
-            return new Movie[size];
-        }
-    };
 
 }

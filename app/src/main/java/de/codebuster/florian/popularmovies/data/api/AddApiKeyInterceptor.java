@@ -16,8 +16,6 @@ public class AddApiKeyInterceptor implements Interceptor {
         HttpUrl url = request.httpUrl().newBuilder()
                 .addQueryParameter("api_key", BuildConfig.MOVIE_API_KEY)
                 .build();
-
-        //Log.v("urls", url.toString());
         Request newRequest = chain.request().newBuilder().url(url).build();
         return chain.proceed(newRequest);
     }

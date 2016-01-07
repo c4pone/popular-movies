@@ -1,7 +1,9 @@
-package de.codebuster.florian.popularmovies.data.model;
+package de.codebuster.florian.popularmovies.data.api;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.codebuster.florian.popularmovies.data.domain.movie.Movie;
 
 public class MovieDiscoveryResponse {
 

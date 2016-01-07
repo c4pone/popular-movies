@@ -1,6 +1,6 @@
-package de.codebuster.florian.popularmovies.helper;
+package de.codebuster.florian.popularmovies.utils;
 
-public class ImageHelper {
+public class ImageUtils {
 
     public static String getUrl(Integer width) {
         String url = "http://image.tmdb.org/t/p";
