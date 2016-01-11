@@ -32,7 +32,8 @@ public final class ApiModule {
 
 
     @Provides @Singleton @Named("Api")
-    OkHttpClient provideApiClient(OkHttpClient client) {
+    OkHttpClient provideApiClient() {
+        OkHttpClient client = new OkHttpClient();
         client.interceptors().add(new AddApiKeyInterceptor());
         return client;
     }

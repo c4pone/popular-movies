@@ -1,32 +1,27 @@
 package de.codebuster.florian.popularmovies.data.domain;
 
-import android.content.SharedPreferences;
-
 import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindString;
-import de.codebuster.florian.popularmovies.R;
-import de.codebuster.florian.popularmovies.data.api.Sort;
-import de.codebuster.florian.popularmovies.data.domain.movie.Movie;
+import de.codebuster.florian.popularmovies.data.domain.movie.Review;
 import de.codebuster.florian.popularmovies.data.executor.Executor;
 import de.codebuster.florian.popularmovies.data.executor.Interactor;
 import de.codebuster.florian.popularmovies.data.executor.MainThread;
 import de.codebuster.florian.popularmovies.data.repository.MoviesRepository;
 
-public class GetMoviesInteractor implements Interactor, GetMovies {
+public class GetReviewsByIdInteractor implements Interactor, GetReviewsById {
 
     private final MoviesRepository moviesRepository;
     private final Executor executor;
     private final MainThread mainThread;
 
     private Callback callback;
-    private Sort sort;
+    private Integer movieId;
 
     @Inject
-    GetMoviesInteractor(
+    GetReviewsByIdInteractor(
             MoviesRepository moviesRepository,
             Executor executor,
             MainThread mainThread) {
@@ -35,27 +30,26 @@ public class GetMoviesInteractor implements Interactor, GetMovies {
         this.mainThread = mainThread;
     }
 
-    @Override public void execute(Sort sort, final Callback callback) {
+    @Override public void execute(final Integer movieId, final Callback callback) {
         if (callback == null) {
             throw new IllegalArgumentException(
                     "Callback can't be null, the client of this interactor needs to get the response "
                             + "in the callback");
         }
 
-        //set default
-        if (sort == null) {
-            sort = Sort.POPULARITY;
+        if (movieId == null) {
+            throw new IllegalArgumentException("THe movie id can't be null");
         }
 
-        this.sort = sort;
+        this.movieId = movieId;
         this.callback = callback;
         this.executor.run(this);
     }
 
     @Override public void run() {
         try {
-            List<Movie> movies = moviesRepository.discoverMovies(sort, 1);
-            nofityMoviesLoaded(movies);
+            List<Review> reviews = moviesRepository.getReviews(movieId);
+            nofityReviewsLoaded(reviews);
         } catch (Exception e) {
             notifyError();
         }
@@ -69,11 +63,12 @@ public class GetMoviesInteractor implements Interactor, GetMovies {
         });
     }
 
-    private void nofityMoviesLoaded(final Collection<Movie> movies) {
+    private void nofityReviewsLoaded(final Collection<Review> reviews) {
         mainThread.post(new Runnable() {
             @Override public void run() {
-                callback.onMoviesLoaded(movies);
+                callback.onReviewsLoaded(reviews);
             }
         });
     }
+
 }

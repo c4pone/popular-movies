@@ -1,85 +1,80 @@
 package de.codebuster.florian.popularmovies.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ShareActionProvider;
-import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ImageView;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.app.ActionBar;
 
-import com.squareup.picasso.Picasso;
+import java.util.LinkedList;
+import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import de.codebuster.florian.popularmovies.R;
-import de.codebuster.florian.popularmovies.data.model.Movie;
-import de.codebuster.florian.popularmovies.helper.ImageHelper;
+import de.codebuster.florian.popularmovies.data.domain.movie.Movie;
 import de.codebuster.florian.popularmovies.ui.fragment.MovieDetailFragment;
+import de.codebuster.florian.popularmovies.ui.presenter.MovieUIModule;
 
-public class MovieDetailActivity extends AppCompatActivity {
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbar;
-    @Bind(R.id.backdrop) ImageView backdrop;
+public class MovieDetailActivity extends BaseActivity {
 
-    ShareActionProvider shareActionProvider;
-    Movie movie;
+    private static final String EXTRA_MOVIE = "extra_movie";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    private Movie movie;
+
+    public static Intent getLaunchIntent(final Context context, final Movie movie) {
+        if (movie == null) {
+            throwIllegalArgumentException();
+        }
+
+        Intent intent = new Intent(context, MovieDetailActivity.class);
+        Bundle mBundle = new Bundle();
+        mBundle.putParcelable(EXTRA_MOVIE, movie);
+        intent.putExtras(mBundle);
+
+        return intent;
+    }
+
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        ButterKnife.bind(this);
 
-        Intent intent = getIntent();
-        if (intent != null) {
-            movie = (Movie)getIntent().getParcelableExtra(Movie.class.toString());
+        if (toolbar != null) {
+            ActionBar ab = getSupportActionBar();
+            if (ab != null) {
+                ab.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
+                ab.setDisplayHomeAsUpEnabled(true);
+                ab.setDisplayShowHomeEnabled(true);
+            }
+        }
 
-            setSupportActionBar(toolbar);
-            if (getSupportActionBar() != null)
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mapExtras();
+        initializeFragment();
+    }
 
-            collapsingToolbar.setTitle(movie.getTitle());
+    @Override protected List<Object> getModules() {
+        List<Object> modules = new LinkedList<Object>();
+        modules.add(new MovieUIModule());
+        return modules;
+    }
 
-            Picasso
-                    .with(this)
-                    .load(ImageHelper.getUrl(500) + movie.getBackdropPath())
-                    .fit()
-                    .into(backdrop);
-
-
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            Fragment fragment = MovieDetailFragment.newInstance(movie);
-            ft.replace(R.id.content, fragment);
-            ft.commit();
+    private void mapExtras() {
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            throwIllegalArgumentException();
+        }
+        movie = getIntent().getParcelableExtra(EXTRA_MOVIE);
+        if (movie == null) {
+            throwIllegalArgumentException();
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.details_menu, menu);
+    private void initializeFragment() {
+        MovieDetailFragment detailFragment =
+                (MovieDetailFragment) getSupportFragmentManager().findFragmentById(R.id.movie_detail_fragment);
+        detailFragment.showMovie(movie);
+    }
 
-
-        MenuItem menuItem = menu.findItem(R.id.action_share);
-        // Get the provider and hold onto it to set/change the share intent.
-
-        shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
-
-        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-        sharingIntent.setType("text/html");
-        String shareText = getString(R.string.share_message, movie.getTitle());
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, Html.fromHtml("<p>" + shareText + "</p>"));
-        startActivity(Intent.createChooser(sharingIntent, "Share using"));
-
-        shareActionProvider.setShareIntent(sharingIntent);
-
-
-        return true;
+    private static void throwIllegalArgumentException() {
+        throw new IllegalArgumentException(
+                "MovieDetailActivity has to be launched using a Movie identifier as extra");
     }
 }

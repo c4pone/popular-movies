@@ -8,7 +8,7 @@ public enum Sort implements Serializable {
     VOTE_AVERAGE("vote_average.desc"),
     VOTE_COUNT("vote_count.desc");
 
-    private final String value;
+    public final String value;
 
     Sort(String value) {
         this.value = value;

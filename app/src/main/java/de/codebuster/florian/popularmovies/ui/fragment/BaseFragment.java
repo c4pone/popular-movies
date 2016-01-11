@@ -21,8 +21,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import butterknife.ButterKnife;
-import com.github.pedrovgs.effectiveandroidui.ui.activity.BaseActivity;
+import de.codebuster.florian.popularmovies.ui.activity.BaseActivity;
 
 /**
  * Base fragment created to be extended by every fragment in this application. This class provides
@@ -70,6 +71,6 @@ public abstract class BaseFragment extends Fragment {
    * @param view to extract each widget injected in the fragment.
    */
   private void injectViews(final View view) {
-    ButterKnife.inject(this, view);
+    ButterKnife.bind(this, view);
   }
 }

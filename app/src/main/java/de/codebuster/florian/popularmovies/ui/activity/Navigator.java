@@ -8,8 +8,9 @@ import android.support.v4.app.FragmentManager;
 
 import javax.inject.Inject;
 
-import de.codebuster.florian.popularmovies.data.model.Movie;
-import de.codebuster.florian.popularmovies.di.ActivityContext;
+import de.codebuster.florian.popularmovies.R;
+import de.codebuster.florian.popularmovies.data.domain.movie.Movie;
+import de.codebuster.florian.popularmovies.data.di.ActivityContext;
 import de.codebuster.florian.popularmovies.ui.fragment.MovieDetailFragment;
 
 public class Navigator {
@@ -46,7 +47,7 @@ public class Navigator {
     }
 
     private boolean canInteractWithFragments() {
-        movieDetailFragment = (MovieDetailFragment) getFragmentManager().findFragmentById(R.id.movie_details_fragment);
+        movieDetailFragment = (MovieDetailFragment) getFragmentManager().findFragmentById(R.id.movie_detail_fragment);
 
         return movieDetailFragment != null;
     }

@@ -16,67 +16,100 @@
 package de.codebuster.florian.popularmovies.ui.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import butterknife.ButterKnife;
-import com.github.pedrovgs.effectiveandroidui.TvShowsApplication;
-import com.github.pedrovgs.effectiveandroidui.di.ActivityModule;
-import dagger.ObjectGraph;
+import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+
 import java.util.List;
 
-/**
- * Base activity created to be extended by every activity in this application. This class provides
- * dependency injection configuration, ButterKnife Android library configuration and some methods
- * common to every activity.
- *
- * @author Pedro Vicente Gómez Sánchez
- */
-public abstract class BaseActivity extends ActionBarActivity {
+import butterknife.Bind;
+import butterknife.BindString;
+import butterknife.ButterKnife;
+import dagger.ObjectGraph;
+import de.codebuster.florian.popularmovies.PopularMoviesApplication;
+import de.codebuster.florian.popularmovies.R;
+import de.codebuster.florian.popularmovies.data.di.ActivityModule;
 
-  private ObjectGraph activityScopeGraph;
+public abstract class BaseActivity extends AppCompatActivity {
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    injectDependencies();
-    injectViews();
-  }
+    @Nullable @Bind(R.id.toolbar) Toolbar toolbar;
+    @BindString(R.string.app_name) String title;
 
-  /**
-   * Method used to resolve dependencies provided by Dagger modules. Inject an object to provide
-   * every @Inject annotation contained.
-   *
-   * @param object to inject.
-   */
-  public void inject(Object object) {
-    activityScopeGraph.inject(object);
-  }
+    private ObjectGraph activityScopeGraph;
 
-  /**
-   * Get a list of Dagger modules with Activity scope needed to this Activity.
-   *
-   * @return modules with new dependencies to provide.
-   */
-  protected abstract List<Object> getModules();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        injectDependencies();
+    }
 
-  /**
-   * Create a new Dagger ObjectGraph to add new dependencies using a plus operation and inject the
-   * declared one in the activity. This new graph will be destroyed once the activity lifecycle
-   * finish.
-   *
-   * This is the key of how to use Activity scope dependency injection.
-   */
-  private void injectDependencies() {
-    TvShowsApplication tvShowsApplication = (TvShowsApplication) getApplication();
-    List<Object> activityScopeModules = getModules();
-    activityScopeModules.add(new ActivityModule(this));
-    activityScopeGraph = tvShowsApplication.plus(activityScopeModules);
-    inject(this);
-  }
+    @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
+        injectViews();
+        initializeSupportActionBar();
+    }
 
-  /**
-   * Replace every field annotated with ButterKnife annotations like @InjectView with the proper
-   * value.
-   */
-  private void injectViews() {
-    ButterKnife.inject(this);
-  }
+    /**
+     * Method used to resolve dependencies provided by Dagger modules. Inject an object to provide
+     * every @Inject annotation contained.
+     *
+     * @param object to inject.
+     */
+    public void inject(Object object) {
+        activityScopeGraph.inject(object);
+    }
+
+    /**
+     * Sets the SupportActionBar for this View if the toolbar is not null.
+     */
+    public void initializeSupportActionBar() {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar == null) return;
+
+        actionBar.setTitle(title);
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setHomeButtonEnabled(false);
+    }
+
+    /**
+     * Returns the Toolbar
+     *
+     * @return Toolbar
+     */
+    public Toolbar getToolbar() {
+        return this.toolbar;
+    }
+
+    /**
+     * Get a list of Dagger modules with Activity scope needed to this Activity.
+     *
+     * @return modules with new dependencies to provide.
+     */
+    protected abstract List<Object> getModules();
+
+    /**
+     * Create a new Dagger ObjectGraph to add new dependencies using a plus operation and inject the
+     * declared one in the activity. This new graph will be destroyed once the activity lifecycle
+     * finish.
+     * <p>
+     * This is the key of how to use Activity scope dependency injection.
+     */
+    private void injectDependencies() {
+        PopularMoviesApplication popularMoviesApplication = (PopularMoviesApplication) getApplication();
+        List<Object> activityScopeModules = getModules();
+        activityScopeModules.add(new ActivityModule(this));
+        activityScopeGraph = popularMoviesApplication.plus(activityScopeModules);
+        inject(this);
+    }
+
+    /**
+     * Replace every field annotated with ButterKnife annotations like @InjectView with the proper
+     * value.
+     */
+    private void injectViews() {
+        ButterKnife.bind(this);
+    }
 }

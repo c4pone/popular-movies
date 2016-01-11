@@ -25,7 +25,8 @@ import de.codebuster.florian.popularmovies.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

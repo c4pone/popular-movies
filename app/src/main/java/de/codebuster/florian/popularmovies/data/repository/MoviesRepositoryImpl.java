@@ -6,6 +6,8 @@ import de.codebuster.florian.popularmovies.data.api.MovieDiscoveryResponse;
 import de.codebuster.florian.popularmovies.data.api.MoviesApi;
 import de.codebuster.florian.popularmovies.data.api.Sort;
 import de.codebuster.florian.popularmovies.data.domain.movie.Movie;
+import de.codebuster.florian.popularmovies.data.domain.movie.Review;
+import de.codebuster.florian.popularmovies.data.domain.movie.Video;
 import retrofit.Call;
 
 public class MoviesRepositoryImpl implements MoviesRepository {
@@ -21,5 +23,15 @@ public class MoviesRepositoryImpl implements MoviesRepository {
         MovieDiscoveryResponse movieDiscoveryResponse = discoverMovies.execute().body();
 
         return movieDiscoveryResponse.getResults();
+    }
+
+    @Override
+    public List<Video> getVideos(Integer movieId) throws Exception {
+        throw new Exception("NOT IMPLEMENTED YET");
+    }
+
+    @Override
+    public List<Review> getReviews(Integer movieId) throws Exception {
+        throw new Exception("NOT IMPLEMENTED YET");
     }
 }

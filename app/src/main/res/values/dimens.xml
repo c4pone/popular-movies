@@ -1,6 +1,17 @@
 <resources>
+    <dimen name="movies_grid_column_width">180dp</dimen>
+    <dimen name="main_margin">10dip</dimen>
     <dimen name="detail_backdrop_height">256dp</dimen>
     <dimen name="card_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="list_item_avatar_size">40dp</dimen>
+
+    <dimen name="secondary_margin">5dip</dimen>
+    <dimen name="numeric_title_size">38sp</dimen>
+    <dimen name="title_size">20sp</dimen>
+    <dimen name="divider_height">1dip</dimen>
+    <dimen name="poster_height">200dip</dimen>
+    <dimen name="fan_art_height">185dip</dimen>
+    <item name="x_draggable_scale_factor" format="float" type="dimen">2</item>
+    <item name="y_draggable_scale_factor" format="float" type="dimen">2</item>
 </resources>

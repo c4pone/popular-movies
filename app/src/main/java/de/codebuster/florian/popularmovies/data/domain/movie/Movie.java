@@ -285,7 +285,8 @@ public class Movie implements Parcelable {
 
     public String getReleaseYear() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date newDate = null;
+        Date newDate;
+
         try {
             newDate = format.parse(getReleaseDate());
         } catch (ParseException e) {

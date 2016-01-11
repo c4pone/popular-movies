@@ -2,6 +2,7 @@ package de.codebuster.florian.popularmovies.data.domain;
 
 import java.util.Collection;
 
+import de.codebuster.florian.popularmovies.data.api.Sort;
 import de.codebuster.florian.popularmovies.data.domain.movie.Movie;
 
 
@@ -12,5 +13,5 @@ public interface GetMovies {
         void onConnectionError();
     }
 
-    void execute(Callback callback);
+    void execute(Sort sort, Callback callback);
 }
