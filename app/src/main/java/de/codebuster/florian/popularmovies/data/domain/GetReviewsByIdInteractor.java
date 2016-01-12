@@ -50,6 +50,7 @@ public class GetReviewsByIdInteractor implements Interactor, GetReviewsById {
     @Override
     public void run() {
         try {
+            //TODO make the page dynamic
             List<Review> reviews = moviesRepository.getReviews(movieId, 1);
             nofityReviewsLoaded(reviews);
         } catch (Exception e) {

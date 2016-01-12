@@ -32,10 +32,10 @@ public class VideoCollection extends SimpleCollection<Video> implements Parcelab
     }
 
     public VideoCollection(Parcel in) {
-        List<Video> movies = new LinkedList();
-        in.readList(movies, null);
+        List<Video> videos = new LinkedList();
+        in.readList(videos, null);
 
-        this.list = movies;
+        this.list = videos;
     }
 
     @Override

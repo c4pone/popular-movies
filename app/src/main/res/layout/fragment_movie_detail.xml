@@ -8,4 +8,6 @@
 
     <include layout="@layout/partial_movie_trailer" />
 
+    <include layout="@layout/partial_movie_reviews" />
+
 </LinearLayout>

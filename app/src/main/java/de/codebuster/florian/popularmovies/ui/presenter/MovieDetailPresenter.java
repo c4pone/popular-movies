@@ -15,6 +15,7 @@ import de.codebuster.florian.popularmovies.data.domain.movie.Video;
 import de.codebuster.florian.popularmovies.ui.activity.Navigator;
 import de.codebuster.florian.popularmovies.ui.presenter.view.MovieDetailView;
 import de.codebuster.florian.popularmovies.ui.renderer.movie.MovieCollection;
+import de.codebuster.florian.popularmovies.ui.renderer.review.ReviewCollection;
 import de.codebuster.florian.popularmovies.ui.renderer.video.VideoCollection;
 import de.codebuster.florian.popularmovies.utils.ImageUtils;
 import de.codebuster.florian.popularmovies.utils.UrlUtils;
@@ -29,6 +30,7 @@ public class MovieDetailPresenter extends Presenter {
 
     private Movie movie;
     private VideoCollection currentVideoCollection;
+    private ReviewCollection currentReviewCollection;
 
     @Inject
     public MovieDetailPresenter(
@@ -63,6 +65,10 @@ public class MovieDetailPresenter extends Presenter {
 
     public VideoCollection getCurrentVideos() {
         return this.currentVideoCollection;
+    }
+
+    public ReviewCollection getCurrentReviews() {
+        return this.currentReviewCollection;
     }
 
     private void showMovie() {
@@ -111,8 +117,26 @@ public class MovieDetailPresenter extends Presenter {
         }
     }
 
-    private void loadReviews() {
+    public void loadReviews(final ReviewCollection reviewCollection) {
+        currentReviewCollection = reviewCollection;
+        showReviews(reviewCollection.getAsList());
+    }
 
+    private void loadReviews() {
+        if (view.isReady()) {
+            getReviewsByIdInteractor.execute(movie.getId(), new GetReviewsById.Callback() {
+                @Override
+                public void onReviewsLoaded(Collection<Review> reviews) {
+                    currentReviewCollection = new ReviewCollection(reviews);
+                    showReviews(reviews);
+                }
+
+                @Override
+                public void onConnectionError() {
+                    notifyConnectionError();
+                }
+            });
+        }
     }
 
     public void loadVideos(final VideoCollection videoCollection) {
@@ -144,6 +168,13 @@ public class MovieDetailPresenter extends Presenter {
         }
     }
 
+    private void showReviews(Collection<Review> reviews) {
+        if (view.isReady()) {
+            view.renderReviews(reviews);
+//            view.hideLoading();
+        }
+    }
+
     private void notifyConnectionError() {
         if (view.isReady()) {
 //            view.hideLoading();
@@ -151,4 +182,7 @@ public class MovieDetailPresenter extends Presenter {
         }
     }
 
+    public void onReviewAuthorClicked(Review review) {
+        navigator.openUrl(review.getUrl());
+    }
 }

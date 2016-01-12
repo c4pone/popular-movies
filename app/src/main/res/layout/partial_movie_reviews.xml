@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.CardContent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reviews"
+        android:textAppearance="@style/AppTheme.Title"
+        android:id="@+id/title_reviews"
+        android:paddingBottom="16dp" />
+
+    <ListView
+        android:id="@+id/movie_detail_review_list"
+        android:visibility="visible"
+        style="@style/AppTheme.ListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

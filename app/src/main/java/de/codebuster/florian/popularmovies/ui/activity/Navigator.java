@@ -73,7 +73,15 @@ public class Navigator {
     }
 
     public void openVideo(Video video) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(UrlUtils.videoToUrl(video)));
-        activityContext.startActivity(browserIntent);
+        openURLInIntent(UrlUtils.videoToUrl(video));
+    }
+
+    public void openUrl(String url) {
+        openURLInIntent(url);
+    }
+
+    private void openURLInIntent(String url) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(browserIntent);
     }
 }

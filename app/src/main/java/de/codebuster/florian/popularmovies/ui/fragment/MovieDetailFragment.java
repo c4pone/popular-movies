@@ -27,6 +27,8 @@ import de.codebuster.florian.popularmovies.data.domain.movie.Video;
 import de.codebuster.florian.popularmovies.ui.presenter.MovieDetailPresenter;
 import de.codebuster.florian.popularmovies.ui.presenter.view.MovieDetailView;
 import de.codebuster.florian.popularmovies.ui.renderer.movie.MovieCollection;
+import de.codebuster.florian.popularmovies.ui.renderer.review.ReviewCollection;
+import de.codebuster.florian.popularmovies.ui.renderer.review.ReviewRendererAdapterFactory;
 import de.codebuster.florian.popularmovies.ui.renderer.video.VideoCollection;
 import de.codebuster.florian.popularmovies.ui.renderer.video.VideoRendererAdapterFactory;
 import de.codebuster.florian.popularmovies.utils.UrlUtils;
@@ -34,6 +36,7 @@ import de.codebuster.florian.popularmovies.utils.UrlUtils;
 public class MovieDetailFragment extends BaseFragment implements MovieDetailView {
 
     private static final String EXTRA_VIDEOS = "extra_videos";
+    private static final String EXTRA_REVIEWS = "extra_reviews";
 
     @Bind(R.id.movie_detail_poster)
     ImageView poster;
@@ -45,21 +48,30 @@ public class MovieDetailFragment extends BaseFragment implements MovieDetailView
     TextView releaseYear;
     @Bind(R.id.movie_detail_video_list)
     ListView video_list;
+    @Bind(R.id.movie_detail_review_list)
+    ListView review_list;
 
     @Bind(R.id.movie_detail_title) TextView title;
 
     @Inject
     MovieDetailPresenter movieDetailPresenter;
+
     @Inject
     VideoRendererAdapterFactory videoRendererAdapterFactory;
+    @Inject
+    ReviewRendererAdapterFactory reviewRendererAdapterFactory;
 
     private RendererAdapter<Video> videoRendererAdapter;
+    private RendererAdapter<Review> reviewRendererAdapter;
     private VideoCollection videoCollection = new VideoCollection();
+    private ReviewCollection reviewCollection = new ReviewCollection();
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initializeVideoList();
+        initializeReviewList();
     }
 
     @Override
@@ -88,6 +100,7 @@ public class MovieDetailFragment extends BaseFragment implements MovieDetailView
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(EXTRA_VIDEOS, movieDetailPresenter.getCurrentVideos());
+        outState.putParcelable(EXTRA_REVIEWS, movieDetailPresenter.getCurrentReviews());
     }
 
     @Override
@@ -97,6 +110,9 @@ public class MovieDetailFragment extends BaseFragment implements MovieDetailView
         if (savedInstanceState != null) {
             final VideoCollection videoCollection = savedInstanceState.getParcelable(EXTRA_VIDEOS);
             updatePresenterWithSavedVideos(videoCollection);
+
+            final ReviewCollection reviewCollection = savedInstanceState.getParcelable(EXTRA_REVIEWS);
+            updatePresenterWithSavedReviews(reviewCollection);
         }
     }
 
@@ -155,8 +171,11 @@ public class MovieDetailFragment extends BaseFragment implements MovieDetailView
 
     @Override
     public void renderReviews(Collection<Review> reviews) {
-
+        this.reviewCollection.clear();
+        this.reviewCollection.addAll(reviews);
+        refreshReviewAdapter();
     }
+
 
     @Override
     public void renderVideos(Collection<Video> videos) {
@@ -180,13 +199,29 @@ public class MovieDetailFragment extends BaseFragment implements MovieDetailView
         video_list.setAdapter(videoRendererAdapter);
     }
 
+    private void initializeReviewList() {
+        reviewRendererAdapter = reviewRendererAdapterFactory.getReviewRendererAdapter(reviewCollection);
+        review_list.setAdapter(reviewRendererAdapter);
+    }
+
     private void updatePresenterWithSavedVideos(VideoCollection videoCollection) {
         if (videoCollection != null) {
             movieDetailPresenter.loadVideos(videoCollection);
         }
     }
 
+    private void updatePresenterWithSavedReviews(ReviewCollection reviewCollection) {
+        if (reviewCollection != null) {
+            movieDetailPresenter.loadReviews(reviewCollection);
+        }
+    }
+
     private void refreshVideoAdapter() {
         videoRendererAdapter.notifyDataSetChanged();
     }
+
+    private void refreshReviewAdapter() {
+        reviewRendererAdapter.notifyDataSetChanged();
+    }
+
 }
