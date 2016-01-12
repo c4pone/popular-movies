@@ -1,14 +1,10 @@
 package de.codebuster.florian.popularmovies.data.domain;
 
-import android.content.SharedPreferences;
-
 import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindString;
-import de.codebuster.florian.popularmovies.R;
 import de.codebuster.florian.popularmovies.data.api.Sort;
 import de.codebuster.florian.popularmovies.data.domain.movie.Movie;
 import de.codebuster.florian.popularmovies.data.executor.Executor;
@@ -35,7 +31,8 @@ public class GetMoviesInteractor implements Interactor, GetMovies {
         this.mainThread = mainThread;
     }
 
-    @Override public void execute(Sort sort, final Callback callback) {
+    @Override
+    public void execute(Sort sort, final Callback callback) {
         if (callback == null) {
             throw new IllegalArgumentException(
                     "Callback can't be null, the client of this interactor needs to get the response "
@@ -52,7 +49,9 @@ public class GetMoviesInteractor implements Interactor, GetMovies {
         this.executor.run(this);
     }
 
-    @Override public void run() {
+    @Override
+    public void run() {
+        //TODO Make the pages dynamic
         try {
             List<Movie> movies = moviesRepository.discoverMovies(sort, 1);
             nofityMoviesLoaded(movies);
@@ -63,7 +62,8 @@ public class GetMoviesInteractor implements Interactor, GetMovies {
 
     private void notifyError() {
         mainThread.post(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 callback.onConnectionError();
             }
         });
@@ -71,7 +71,8 @@ public class GetMoviesInteractor implements Interactor, GetMovies {
 
     private void nofityMoviesLoaded(final Collection<Movie> movies) {
         mainThread.post(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 callback.onMoviesLoaded(movies);
             }
         });

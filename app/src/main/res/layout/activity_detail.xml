@@ -69,18 +69,19 @@
             android:name="de.codebuster.florian.popularmovies.ui.fragment.MovieDetailFragment"
             android:layout_width="match_parent"
             android:layout_height="520dp"
-            android:layout_marginTop="55dp"
-            tools:layout="@layout/fragment_movies"
-            tools:context=".ui.activity.MovieDetailActivity"/>
+            tools:context=".ui.activity.MovieDetailActivity"
+            tools:layout="@layout/fragment_movies" />
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
-            android:id="@+id/movie_favourite_button"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            app:layout_anchor="@id/appbar"
-            app:layout_anchorGravity="bottom|right|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:clickable="true"/>
+        android:id="@+id/movie_favourite_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:clickable="true"
+        android:src="@drawable/favorite"
+        app:layout_anchor="@id/appbar"
+
+        app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>

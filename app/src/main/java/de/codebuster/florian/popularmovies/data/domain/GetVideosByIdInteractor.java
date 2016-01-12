@@ -5,9 +5,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import de.codebuster.florian.popularmovies.data.api.Sort;
-import de.codebuster.florian.popularmovies.data.domain.movie.Movie;
-import de.codebuster.florian.popularmovies.data.domain.movie.Review;
 import de.codebuster.florian.popularmovies.data.domain.movie.Video;
 import de.codebuster.florian.popularmovies.data.executor.Executor;
 import de.codebuster.florian.popularmovies.data.executor.Interactor;
@@ -50,7 +47,8 @@ public class GetVideosByIdInteractor implements Interactor, GetVideosById {
         this.executor.run(this);
     }
 
-    @Override public void run() {
+    @Override
+    public void run() {
         try {
             List<Video> videos = moviesRepository.getVideos(movieId);
             nofityVideosLoaded(videos);
@@ -70,7 +68,8 @@ public class GetVideosByIdInteractor implements Interactor, GetVideosById {
 
     private void nofityVideosLoaded(final Collection<Video> videos) {
         mainThread.post(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 callback.onVideosLoaded(videos);
             }
         });

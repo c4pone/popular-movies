@@ -22,13 +22,13 @@ package de.codebuster.florian.popularmovies.utils;
  */
 public class StringUtils {
 
-  private static final String EMPTY_STRING = "";
+    private static final String EMPTY_STRING = "";
 
-  private StringUtils() {
-    //Empty
-  }
+    private StringUtils() {
+        //Empty
+    }
 
-  public static boolean isNullOrEmpty(final String string) {
-    return string == null || EMPTY_STRING.equals(string);
-  }
+    public static boolean isNullOrEmpty(final String string) {
+        return string == null || EMPTY_STRING.equals(string);
+    }
 }

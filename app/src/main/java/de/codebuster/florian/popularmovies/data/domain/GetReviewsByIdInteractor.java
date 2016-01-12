@@ -30,7 +30,8 @@ public class GetReviewsByIdInteractor implements Interactor, GetReviewsById {
         this.mainThread = mainThread;
     }
 
-    @Override public void execute(final Integer movieId, final Callback callback) {
+    @Override
+    public void execute(final Integer movieId, final Callback callback) {
         if (callback == null) {
             throw new IllegalArgumentException(
                     "Callback can't be null, the client of this interactor needs to get the response "
@@ -46,9 +47,10 @@ public class GetReviewsByIdInteractor implements Interactor, GetReviewsById {
         this.executor.run(this);
     }
 
-    @Override public void run() {
+    @Override
+    public void run() {
         try {
-            List<Review> reviews = moviesRepository.getReviews(movieId);
+            List<Review> reviews = moviesRepository.getReviews(movieId, 1);
             nofityReviewsLoaded(reviews);
         } catch (Exception e) {
             notifyError();
@@ -57,7 +59,8 @@ public class GetReviewsByIdInteractor implements Interactor, GetReviewsById {
 
     private void notifyError() {
         mainThread.post(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 callback.onConnectionError();
             }
         });
@@ -65,7 +68,8 @@ public class GetReviewsByIdInteractor implements Interactor, GetReviewsById {
 
     private void nofityReviewsLoaded(final Collection<Review> reviews) {
         mainThread.post(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 callback.onReviewsLoaded(reviews);
             }
         });

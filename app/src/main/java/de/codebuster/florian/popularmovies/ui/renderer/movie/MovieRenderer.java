@@ -1,4 +1,4 @@
-package de.codebuster.florian.popularmovies.ui.renderer.movies;
+package de.codebuster.florian.popularmovies.ui.renderer.movie;
 
 
 import android.content.Context;
@@ -27,8 +27,10 @@ public class MovieRenderer extends Renderer<Movie> {
     private final Context context;
     private final MoviesPresenter moviesPresenter;
 
-    @Bind(R.id.iv_thumbnail) ImageView thumbnailImageView;
-    @Bind(R.id.tv_title) TextView titleTextView;
+    @Bind(R.id.iv_thumbnail)
+    ImageView thumbnailImageView;
+    @Bind(R.id.tv_title)
+    TextView titleTextView;
 
     @Inject
     public MovieRenderer(Context context, MoviesPresenter moviesPresenter) {
@@ -48,7 +50,7 @@ public class MovieRenderer extends Renderer<Movie> {
 
     @Override
     protected View inflate(LayoutInflater inflater, ViewGroup parent) {
-        return inflater.inflate(R.layout.grid_item_movie, parent, false);
+        return inflater.inflate(R.layout.row_movie, parent, false);
     }
 
     @Override

@@ -1,8 +1,7 @@
-package de.codebuster.florian.popularmovies.ui.renderer.movies;
+package de.codebuster.florian.popularmovies.ui.renderer.movie;
 
 import com.pedrogomez.renderers.Renderer;
 import com.pedrogomez.renderers.RendererBuilder;
-
 
 import java.util.Collection;
 
@@ -14,7 +13,8 @@ public class MovieRendererBuilder extends RendererBuilder<Movie> {
         super(prototypes);
     }
 
-    @Override protected Class getPrototypeClass(Movie movie) {
+    @Override
+    protected Class getPrototypeClass(Movie movie) {
         return MovieRenderer.class;
     }
 }

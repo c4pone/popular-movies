@@ -3,7 +3,6 @@ package de.codebuster.florian.popularmovies.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 
 import java.util.LinkedList;
@@ -33,7 +32,13 @@ public class MovieDetailActivity extends BaseActivity {
         return intent;
     }
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    private static void throwIllegalArgumentException() {
+        throw new IllegalArgumentException(
+                "MovieDetailActivity has to be launched using a Movie identifier as extra");
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
@@ -50,7 +55,8 @@ public class MovieDetailActivity extends BaseActivity {
         initializeFragment();
     }
 
-    @Override protected List<Object> getModules() {
+    @Override
+    protected List<Object> getModules() {
         List<Object> modules = new LinkedList<Object>();
         modules.add(new MovieUIModule());
         return modules;
@@ -71,10 +77,5 @@ public class MovieDetailActivity extends BaseActivity {
         MovieDetailFragment detailFragment =
                 (MovieDetailFragment) getSupportFragmentManager().findFragmentById(R.id.movie_detail_fragment);
         detailFragment.showMovie(movie);
-    }
-
-    private static void throwIllegalArgumentException() {
-        throw new IllegalArgumentException(
-                "MovieDetailActivity has to be launched using a Movie identifier as extra");
     }
 }

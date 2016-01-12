@@ -1,7 +1,9 @@
-package de.codebuster.florian.popularmovies.ui.renderer.movies;
+package de.codebuster.florian.popularmovies.ui.renderer.movie;
 
 import android.view.LayoutInflater;
+
 import com.pedrogomez.renderers.RendererAdapter;
+
 import javax.inject.Inject;
 
 import de.codebuster.florian.popularmovies.data.domain.movie.Movie;
@@ -12,7 +14,7 @@ public class MovieRendererAdapterFactory {
 
     @Inject
     public MovieRendererAdapterFactory(MovieRendererBuilder rendererBuilder,
-                                        LayoutInflater layoutInflater) {
+                                       LayoutInflater layoutInflater) {
         this.rendererBuilder = rendererBuilder;
         this.layoutInflater = layoutInflater;
     }

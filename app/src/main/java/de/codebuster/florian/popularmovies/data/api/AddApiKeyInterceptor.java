@@ -1,5 +1,7 @@
 package de.codebuster.florian.popularmovies.data.api;
 
+import android.util.Log;
+
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Request;
@@ -17,6 +19,8 @@ public class AddApiKeyInterceptor implements Interceptor {
                 .addQueryParameter("api_key", BuildConfig.MOVIE_API_KEY)
                 .build();
         Request newRequest = chain.request().newBuilder().url(url).build();
+
+        Log.v("test", url.toString());
         return chain.proceed(newRequest);
     }
 }

@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import dagger.Module;
 import dagger.Provides;
 import de.codebuster.florian.popularmovies.PopularMoviesApplication;
-import de.codebuster.florian.popularmovies.data.executor.ExecutorModule;
 import de.codebuster.florian.popularmovies.data.domain.MoviesModule;
+import de.codebuster.florian.popularmovies.data.executor.ExecutorModule;
 
 @Module(
         includes = {

@@ -1,69 +1,58 @@
-package de.codebuster.florian.popularmovies.data.api;
+package de.codebuster.florian.popularmovies.data.api.response;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.codebuster.florian.popularmovies.data.domain.movie.Movie;
 
-public class MovieDiscoveryResponse {
+public class MoviesResponse {
 
+    @Expose
     private Integer page;
-    private List<Movie> results = new ArrayList<>();
+
+    @Expose
+    @SerializedName("results")
+    private List<Movie> movies = new ArrayList<>();
+
+    @Expose
+    @SerializedName("total_pages")
     private Integer totalPages;
+
+    @Expose
+    @SerializedName("total_results")
     private Integer totalResults;
 
-    /**
-     * @return The page
-     */
     public Integer getPage() {
         return page;
     }
 
-    /**
-     * @param page The page
-     */
     public void setPage(Integer page) {
         this.page = page;
     }
 
-    /**
-     * @return The results
-     */
     public List<Movie> getResults() {
-        return results;
+        return movies;
     }
 
-    /**
-     * @param results The results
-     */
-    public void setResults(List<Movie> results) {
-        this.results = results;
+    public void setResults(List<Movie> movies) {
+        this.movies = movies;
     }
 
-    /**
-     * @return The totalPages
-     */
     public Integer getTotalPages() {
         return totalPages;
     }
 
-    /**
-     * @param totalPages The total_pages
-     */
     public void setTotalPages(Integer totalPages) {
         this.totalPages = totalPages;
     }
 
-    /**
-     * @return The totalResults
-     */
     public Integer getTotalResults() {
         return totalResults;
     }
 
-    /**
-     * @param totalResults The total_results
-     */
     public void setTotalResults(Integer totalResults) {
         this.totalResults = totalResults;
     }

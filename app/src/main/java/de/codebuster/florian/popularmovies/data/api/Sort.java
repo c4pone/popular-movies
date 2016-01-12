@@ -14,10 +14,6 @@ public enum Sort implements Serializable {
         this.value = value;
     }
 
-    @Override public String toString() {
-        return value;
-    }
-
     public static Sort fromString(String value) {
         if (value != null) {
             for (Sort sort : Sort.values()) {
@@ -27,5 +23,10 @@ public enum Sort implements Serializable {
             }
         }
         throw new IllegalArgumentException("No constant with text " + value + " found");
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 }

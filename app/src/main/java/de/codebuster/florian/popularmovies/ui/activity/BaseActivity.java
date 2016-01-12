@@ -33,8 +33,11 @@ import de.codebuster.florian.popularmovies.data.di.ActivityModule;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    @Nullable @Bind(R.id.toolbar) Toolbar toolbar;
-    @BindString(R.string.app_name) String title;
+    @Nullable
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @BindString(R.string.app_name)
+    String title;
 
     private ObjectGraph activityScopeGraph;
 

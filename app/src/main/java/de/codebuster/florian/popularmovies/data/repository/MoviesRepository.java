@@ -10,7 +10,7 @@ import de.codebuster.florian.popularmovies.data.domain.movie.Video;
 public interface MoviesRepository {
     List<Movie> discoverMovies(Sort sort, int page) throws Exception;
 
-    List<Video> getVideos(Integer movieId) throws Exception;
+    List<Video> getVideos(int movieId) throws Exception;
 
-    List<Review> getReviews(Integer movieId) throws Exception;
+    List<Review> getReviews(int movieId, int page) throws Exception;
 }

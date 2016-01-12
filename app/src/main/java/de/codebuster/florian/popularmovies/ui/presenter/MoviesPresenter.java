@@ -5,13 +5,12 @@ import java.util.Collection;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import butterknife.BindString;
-import de.codebuster.florian.popularmovies.R;
 import de.codebuster.florian.popularmovies.data.api.Sort;
-import de.codebuster.florian.popularmovies.data.domain.movie.Movie;
 import de.codebuster.florian.popularmovies.data.domain.GetMovies;
+import de.codebuster.florian.popularmovies.data.domain.movie.Movie;
 import de.codebuster.florian.popularmovies.ui.activity.Navigator;
-import de.codebuster.florian.popularmovies.ui.renderer.movies.MovieCollection;
+import de.codebuster.florian.popularmovies.ui.presenter.view.MoviesView;
+import de.codebuster.florian.popularmovies.ui.renderer.movie.MovieCollection;
 
 @Singleton
 public class MoviesPresenter extends Presenter {
@@ -19,7 +18,7 @@ public class MoviesPresenter extends Presenter {
     private GetMovies getMoviesInteractor;
     private Navigator navigator;
 
-    private View view;
+    private MoviesView view;
     private MovieCollection currentMovieCollection;
     private Sort sort;
 
@@ -29,7 +28,7 @@ public class MoviesPresenter extends Presenter {
         this.navigator = navigator;
     }
 
-    public void setView(View view) {
+    public void setView(MoviesView view) {
         if (view == null) {
             throw new IllegalArgumentException("You can't set a null view");
         }
@@ -124,24 +123,5 @@ public class MoviesPresenter extends Presenter {
      * View interface created to abstract the view
      * implementation used in this presenter.
      */
-    public interface View {
 
-        void hideLoading();
-
-        void showLoading();
-
-        void renderMovies(final Collection<Movie> movies);
-
-        void showConnectionErrorMessage();
-
-        void showEmptyCase();
-
-        void showDefaultTitle();
-
-        void showMovieTitleAsMessage(Movie movie);
-
-        boolean isReady();
-
-        boolean isAlreadyLoaded();
-    }
 }

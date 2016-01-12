@@ -6,10 +6,10 @@
     <ImageView
         android:id="@+id/iv_thumbnail"
         style="@style/AppTheme.Image.Movie"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true" />
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_below="@+id/iv_thumbnail"
-        style="@style/AppTheme.Title.Movie"/>
+        style="@style/AppTheme.Subtitle.Movie"
+        android:layout_below="@+id/iv_thumbnail" />
 </RelativeLayout>

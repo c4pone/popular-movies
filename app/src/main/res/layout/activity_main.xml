@@ -34,8 +34,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:ignore="MergeRootFrame"
-        tools:context=".ui.activity.MainActivity">
+        tools:context=".ui.activity.MainActivity"
+        tools:ignore="MergeRootFrame">
 
         <!-- MoviesFragment -->
         <fragment
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="520dp"
             android:layout_marginTop="55dp"
-            tools:layout="@layout/fragment_movies"
-            tools:context=".ui.activity.MainActivity"/>
+            tools:context=".ui.activity.MainActivity"
+            tools:layout="@layout/fragment_movies" />
     </FrameLayout>
 </android.support.v4.widget.DrawerLayout>

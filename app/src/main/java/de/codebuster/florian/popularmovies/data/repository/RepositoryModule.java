@@ -9,7 +9,9 @@ import de.codebuster.florian.popularmovies.data.api.MoviesApi;
 @Module(library = true, complete = false)
 public final class RepositoryModule {
 
-  @Provides @Singleton MoviesRepository provideMoviesRepository(MoviesApi moviesApi) {
-    return new MoviesRepositoryImpl(moviesApi);
-  }
+    @Provides
+    @Singleton
+    MoviesRepository provideMoviesRepository(MoviesApi moviesApi) {
+        return new MoviesRepositoryImpl(moviesApi);
+    }
 }

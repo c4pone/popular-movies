@@ -2,15 +2,12 @@ package de.codebuster.florian.popularmovies.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import butterknife.Bind;
 import de.codebuster.florian.popularmovies.R;
 import de.codebuster.florian.popularmovies.ui.fragment.MoviesFragment;
 import de.codebuster.florian.popularmovies.ui.presenter.MovieUIModule;
