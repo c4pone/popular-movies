@@ -5,9 +5,16 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pedrogomez.renderers.RendererAdapter;
@@ -20,10 +27,12 @@ import java.util.Collection;
 import javax.inject.Inject;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import de.codebuster.florian.popularmovies.R;
 import de.codebuster.florian.popularmovies.data.domain.movie.Movie;
 import de.codebuster.florian.popularmovies.data.domain.movie.Review;
 import de.codebuster.florian.popularmovies.data.domain.movie.Video;
+import de.codebuster.florian.popularmovies.ui.activity.SettingsActivity;
 import de.codebuster.florian.popularmovies.ui.presenter.MovieDetailPresenter;
 import de.codebuster.florian.popularmovies.ui.presenter.view.MovieDetailView;
 import de.codebuster.florian.popularmovies.ui.renderer.movie.MovieCollection;
@@ -50,6 +59,10 @@ public class MovieDetailFragment extends BaseFragment implements MovieDetailView
     ListView video_list;
     @Bind(R.id.movie_detail_review_list)
     ListView review_list;
+    @Bind(R.id.pb_loading)
+    ProgressBar progressBar;
+    @Bind(R.id.movie_detail_container)
+    LinearLayout movieDetailContainer;
 
     @Bind(R.id.movie_detail_title) TextView title;
 
@@ -66,12 +79,24 @@ public class MovieDetailFragment extends BaseFragment implements MovieDetailView
     private VideoCollection videoCollection = new VideoCollection();
     private ReviewCollection reviewCollection = new ReviewCollection();
 
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initializeVideoList();
         initializeReviewList();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.details_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.v("test", "An option got selected");
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -123,6 +148,8 @@ public class MovieDetailFragment extends BaseFragment implements MovieDetailView
             movieDetailPresenter.setView(this);
             movieDetailPresenter.initialize();
         }
+
+        movieDetailContainer.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -138,18 +165,22 @@ public class MovieDetailFragment extends BaseFragment implements MovieDetailView
     @Override
     public void showMovieBackdrop(String backdropUrl) {
         ImageView backdrop = (ImageView) getActivity().findViewById(R.id.backdrop);
-        Picasso
+        if (backdrop != null) {
+            Picasso
                 .with(getContext())
                 .load(backdropUrl)
                 .placeholder(R.color.main_color)
                 .into(backdrop);
+        }
     }
 
     @Override
     public void setTitle(String title) {
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) getActivity().findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle(title);
+        if (collapsingToolbar != null) {
+            collapsingToolbar.setTitle(title);
+        }
 
         this.title.setText(title);
     }
@@ -224,4 +255,18 @@ public class MovieDetailFragment extends BaseFragment implements MovieDetailView
         reviewRendererAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void hideLoading() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void onMovieFavourite() {
+        Log.v("test","movie favourite");
+        movieDetailPresenter.onMovieFavourite();
+    }
 }

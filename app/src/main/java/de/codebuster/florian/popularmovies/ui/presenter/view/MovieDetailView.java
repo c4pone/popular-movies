@@ -7,6 +7,10 @@ import de.codebuster.florian.popularmovies.data.domain.movie.Video;
 
 public interface MovieDetailView {
 
+    void hideLoading();
+
+    void showLoading();
+
     void showMoviePoster(String url);
 
     void showMovieBackdrop(String url);

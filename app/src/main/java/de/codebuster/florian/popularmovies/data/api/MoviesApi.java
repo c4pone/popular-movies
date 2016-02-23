@@ -17,11 +17,11 @@ public interface MoviesApi {
 
     @GET("/3/movie/{id}/videos")
     Call<VideosResponse> videos(
-            @Path("id") int movieId);
+            @Path("id") Long movieId);
 
     @GET("/3/movie/{id}/reviews")
     Call<ReviewsResponse> reviews(
-            @Path("id") int movieId,
+            @Path("id") Long movieId,
             @Query("page") int page);
 }
 

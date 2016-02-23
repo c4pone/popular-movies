@@ -4,6 +4,7 @@
 
     <string-array name="sortArray">
         <item>popularity</item>
+        <item>favorites</item>
         <item>vote average</item>
         <item>vote count</item>
         <item>release date</item>
@@ -11,6 +12,7 @@
 
     <string-array name="sortValues">
         <item>popularity.desc</item>
+        <item>favorites</item>
         <item>vote_average.desc</item>
         <item>vote_count.desc</item>
         <item>release_date.desc</item>

@@ -13,6 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--<meta-data android:name="DATABASE" android:value="movies.db" />-->
+        <!--<meta-data android:name="VERSION" android:value="2" />-->
+        <!--<meta-data android:name="QUERY_LOG" android:value="true" />-->
+        <!--<meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="de.codebuster.florian.popularmovies.data.domain.movie" />-->
+
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

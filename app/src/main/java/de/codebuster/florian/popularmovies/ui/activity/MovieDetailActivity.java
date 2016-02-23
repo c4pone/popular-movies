@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import java.util.LinkedList;
 import java.util.List;
 
+import butterknife.OnClick;
 import de.codebuster.florian.popularmovies.R;
 import de.codebuster.florian.popularmovies.data.domain.movie.Movie;
 import de.codebuster.florian.popularmovies.ui.fragment.MovieDetailFragment;
@@ -17,6 +18,7 @@ public class MovieDetailActivity extends BaseActivity {
 
     private static final String EXTRA_MOVIE = "extra_movie";
 
+    private MovieDetailFragment detailFragment;
     private Movie movie;
 
     public static Intent getLaunchIntent(final Context context, final Movie movie) {
@@ -74,8 +76,12 @@ public class MovieDetailActivity extends BaseActivity {
     }
 
     private void initializeFragment() {
-        MovieDetailFragment detailFragment =
-                (MovieDetailFragment) getSupportFragmentManager().findFragmentById(R.id.movie_detail_fragment);
+        detailFragment = (MovieDetailFragment) getSupportFragmentManager().findFragmentById(R.id.movie_detail_fragment);
         detailFragment.showMovie(movie);
+    }
+
+    @OnClick(R.id.movie_favourite_button)
+    public void onFavouriteBtnClicked() {
+        detailFragment.onMovieFavourite();
     }
 }

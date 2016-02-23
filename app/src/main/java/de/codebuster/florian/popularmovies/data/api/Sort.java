@@ -6,7 +6,8 @@ public enum Sort implements Serializable {
 
     POPULARITY("popularity.desc"),
     VOTE_AVERAGE("vote_average.desc"),
-    VOTE_COUNT("vote_count.desc");
+    VOTE_COUNT("vote_count.desc"),
+    FAVORITES("favorites");
 
     public final String value;
 

@@ -28,7 +28,7 @@ public class MoviesRepositoryImpl implements MoviesRepository {
     }
 
     @Override
-    public List<Video> getVideos(int movieId) throws Exception {
+    public List<Video> getVideos(Long movieId) throws Exception {
         Call<VideosResponse> videosResponseCall = this.moviesApi.videos(movieId);
         VideosResponse videosResponse = videosResponseCall.execute().body();
 
@@ -36,10 +36,24 @@ public class MoviesRepositoryImpl implements MoviesRepository {
     }
 
     @Override
-    public List<Review> getReviews(int movieId, int page) throws Exception {
+    public List<Review> getReviews(Long movieId, int page) throws Exception {
         Call<ReviewsResponse> reviewsResponseCall = this.moviesApi.reviews(movieId, page);
         ReviewsResponse reviewsResponse = reviewsResponseCall.execute().body();
 
         return reviewsResponse.getResults();
+    }
+
+    @Override
+    public void save(Movie movie) throws Exception {
+//        if (movie.save() <= 0) {
+//            throw new Exception("Could not save the movie");
+//        }
+    }
+
+    @Override
+    public void delete(Movie movie) throws Exception {
+//        if ( ! movie.delete()) {
+//            throw new Exception("Could not delete the movie");
+//        }
     }
 }

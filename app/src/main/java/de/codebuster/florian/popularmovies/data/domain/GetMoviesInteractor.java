@@ -1,5 +1,7 @@
 package de.codebuster.florian.popularmovies.data.domain;
 
+import android.util.Log;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -56,6 +58,7 @@ public class GetMoviesInteractor implements Interactor, GetMovies {
             List<Movie> movies = moviesRepository.discoverMovies(sort, 1);
             nofityMoviesLoaded(movies);
         } catch (Exception e) {
+            Log.e(this.getClass().toString(), e.toString());
             notifyError();
         }
     }

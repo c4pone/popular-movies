@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.orm.SugarRecord;
+import com.orm.dsl.Table;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,17 +14,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Movie implements Parcelable {
+@Table
+public class Movie extends SugarRecord implements Parcelable {
 
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
-        }
-
-        public Movie[] newArray(int size) {
-            return new Movie[size];
-        }
-    };
+    @SerializedName("id")
+    @Expose
+    private Long movieId;
     @SerializedName("adult")
     @Expose
     private Boolean adult;
@@ -31,10 +28,7 @@ public class Movie implements Parcelable {
     private String backdropPath;
     @SerializedName("genre_ids")
     @Expose
-    private List<Integer> genreIds = new ArrayList<Integer>();
-    @SerializedName("id")
-    @Expose
-    private Integer id;
+    private List<Integer> genreIds = new ArrayList<>();
     @SerializedName("original_language")
     @Expose
     private String originalLanguage;
@@ -66,13 +60,26 @@ public class Movie implements Parcelable {
     @Expose
     private Integer voteCount;
 
+    private Boolean favourite;
+
 
     public Movie() {
+        this.favourite = false;
     }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 
     public Movie(Parcel in) {
         this.adult = in.readByte() != 0;
-        this.id = in.readInt();
+        this.movieId = in.readLong();
         this.backdropPath = in.readString();
         in.readList(this.genreIds, null);
         this.originalLanguage = in.readString();
@@ -85,6 +92,7 @@ public class Movie implements Parcelable {
         this.video = in.readByte() != 0;
         this.voteAverage = in.readDouble();
         this.voteCount = in.readInt();
+        this.favourite = in.readByte() != 0;
     }
 
     @Override
@@ -95,7 +103,7 @@ public class Movie implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeByte((byte) (this.adult ? 1 : 0));
-        dest.writeInt(this.id);
+        dest.writeLong(this.movieId);
         dest.writeString(this.backdropPath);
         dest.writeList(this.genreIds);
         dest.writeString(this.originalLanguage);
@@ -108,6 +116,7 @@ public class Movie implements Parcelable {
         dest.writeByte((byte) (this.video ? 1 : 0));
         dest.writeDouble(this.voteAverage);
         dest.writeInt(this.voteCount);
+        dest.writeByte((byte) (this.favourite ? 1 : 0));
     }
 
     public Boolean getAdult() {
@@ -134,12 +143,9 @@ public class Movie implements Parcelable {
         this.genreIds = genreIds;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public Long getMovieId() { return movieId; }
+    public void setMovieId(Long movieId) {
+        this.movieId = movieId;
     }
 
     public String getOriginalLanguage() {
@@ -235,4 +241,11 @@ public class Movie implements Parcelable {
         format = new SimpleDateFormat("yyyy");
         return format.format(newDate);
     }
+
+    public void toggleFavourite() {
+        this.favourite = !this.favourite;
+    }
+
+    public boolean isFavourite() { return this.favourite; }
+
 }

@@ -35,6 +35,10 @@ public class Navigator {
         }
     }
 
+    private void showFavouriteMovieButton() {
+
+    }
+
     private FragmentManager getFragmentManager() {
         return ((FragmentActivity) activityContext).getSupportFragmentManager();
     }

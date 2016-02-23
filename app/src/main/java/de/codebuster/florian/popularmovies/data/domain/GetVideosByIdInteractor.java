@@ -18,7 +18,7 @@ public class GetVideosByIdInteractor implements Interactor, GetVideosById {
     private final MainThread mainThread;
 
     private Callback callback;
-    private Integer movieId;
+    private Long movieId;
 
     @Inject
     GetVideosByIdInteractor(
@@ -31,7 +31,7 @@ public class GetVideosByIdInteractor implements Interactor, GetVideosById {
     }
 
     @Override
-    public void execute(Integer movieId, Callback callback) {
+    public void execute(Long movieId, Callback callback) {
         if (callback == null) {
             throw new IllegalArgumentException(
                     "Callback can't be null, the client of this interactor needs to get the response "

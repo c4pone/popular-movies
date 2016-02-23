@@ -1,12 +1,10 @@
 package de.codebuster.florian.popularmovies.ui.presenter;
 
-import android.content.Intent;
-import android.net.Uri;
-
 import java.util.Collection;
 
 import javax.inject.Inject;
 
+import de.codebuster.florian.popularmovies.data.domain.FavouriteMovie;
 import de.codebuster.florian.popularmovies.data.domain.GetReviewsById;
 import de.codebuster.florian.popularmovies.data.domain.GetVideosById;
 import de.codebuster.florian.popularmovies.data.domain.movie.Movie;
@@ -14,17 +12,16 @@ import de.codebuster.florian.popularmovies.data.domain.movie.Review;
 import de.codebuster.florian.popularmovies.data.domain.movie.Video;
 import de.codebuster.florian.popularmovies.ui.activity.Navigator;
 import de.codebuster.florian.popularmovies.ui.presenter.view.MovieDetailView;
-import de.codebuster.florian.popularmovies.ui.renderer.movie.MovieCollection;
 import de.codebuster.florian.popularmovies.ui.renderer.review.ReviewCollection;
 import de.codebuster.florian.popularmovies.ui.renderer.video.VideoCollection;
 import de.codebuster.florian.popularmovies.utils.ImageUtils;
-import de.codebuster.florian.popularmovies.utils.UrlUtils;
 
 
 public class MovieDetailPresenter extends Presenter {
 
     private GetReviewsById getReviewsByIdInteractor;
     private GetVideosById getVideosByIdInteractor;
+    private FavouriteMovie favouriteMovieInteractor;
     private Navigator navigator;
     private MovieDetailView view;
 
@@ -36,9 +33,11 @@ public class MovieDetailPresenter extends Presenter {
     public MovieDetailPresenter(
             GetReviewsById getReviewsByIdInteractor,
             GetVideosById getVideosByIdInteractor,
+            FavouriteMovie favouriteMovieInteractor,
             Navigator navigator) {
         this.getReviewsByIdInteractor = getReviewsByIdInteractor;
         this.getVideosByIdInteractor = getVideosByIdInteractor;
+        this.favouriteMovieInteractor = favouriteMovieInteractor;
         this.navigator = navigator;
     }
 
@@ -74,14 +73,14 @@ public class MovieDetailPresenter extends Presenter {
     private void showMovie() {
 
         if (view.isReady()) {
-//            view.showLoading();
+            view.showLoading();
             view.setTitle(movie.getTitle());
             view.setDescription(movie.getOverview());
             view.setRating("Vote Average: " + movie.getVoteAverage() + " / " + "10");
             view.setReleaseYear(movie.getReleaseYear());
             view.showMoviePoster(ImageUtils.getUrl(185) + movie.getPosterPath());
             view.showMovieBackdrop(ImageUtils.getUrl(500) + movie.getBackdropPath());
-//            view.hideLoading();
+            view.hideLoading();
         }
     }
 
@@ -124,7 +123,7 @@ public class MovieDetailPresenter extends Presenter {
 
     private void loadReviews() {
         if (view.isReady()) {
-            getReviewsByIdInteractor.execute(movie.getId(), new GetReviewsById.Callback() {
+            getReviewsByIdInteractor.execute(movie.getMovieId(), new GetReviewsById.Callback() {
                 @Override
                 public void onReviewsLoaded(Collection<Review> reviews) {
                     currentReviewCollection = new ReviewCollection(reviews);
@@ -146,7 +145,7 @@ public class MovieDetailPresenter extends Presenter {
 
     private void loadVideos() {
         if (view.isReady()) {
-            getVideosByIdInteractor.execute(movie.getId(), new GetVideosById.Callback() {
+            getVideosByIdInteractor.execute(movie.getMovieId(), new GetVideosById.Callback() {
                 @Override
                 public void onVideosLoaded(Collection<Video> videos) {
                     currentVideoCollection = new VideoCollection(videos);
@@ -162,27 +161,43 @@ public class MovieDetailPresenter extends Presenter {
     }
 
     private void showVideos(Collection<Video> videos) {
-        if (view.isReady()) {
+        if (view != null && view.isReady()) {
             view.renderVideos(videos);
-//            view.hideLoading();
+            view.hideLoading();
         }
     }
 
     private void showReviews(Collection<Review> reviews) {
-        if (view.isReady()) {
+        if (view != null && view.isReady()) {
             view.renderReviews(reviews);
-//            view.hideLoading();
+            view.hideLoading();
         }
     }
 
     private void notifyConnectionError() {
         if (view.isReady()) {
-//            view.hideLoading();
+            view.hideLoading();
             view.showConnectionErrorMessage();
         }
     }
 
     public void onReviewAuthorClicked(Review review) {
         navigator.openUrl(review.getUrl());
+    }
+
+    public void onMovieFavourite() {
+        favouriteMovieInteractor.execute(this.movie, new FavouriteMovie.Callback() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+        //call to favourite Movie interactor
+        //show message movie got favourite
     }
 }
